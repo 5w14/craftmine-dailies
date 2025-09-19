@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 
@@ -43,7 +44,17 @@ public class GameOverlay {
         // 1nd layer
         guiGraphics.blit(RenderType::guiTextured, texture, x, y, 8.0f, 8.0f, k, k, 8, 8, 64, 64, -1);
         // 2nd layer
-        guiGraphics.blit(RenderType::guiTextured, texture, x-1, y-1, 40.0f, 8.0f, k+2, k+2, 8, 8, 64, 64, -1);
+        guiGraphics.blit(RenderType::guiTextured, texture, x - 1, y - 1, 40.0f, 8.0f, k + 2, k + 2, 8, 8, 64, 64, -1);
+    }
+
+    public static void drawBadges(GuiGraphics graphics, String resultName, int textCoordsX, int textCoordsY, int badgesInt) {
+        var wdth = Minecraft.getInstance().font.width(resultName);
+        int badgeX = textCoordsX + 2 + wdth;
+        var badges = DailiesUtil.getBadges(badgesInt);
+        for (ResourceLocation badge : badges) {
+            graphics.blitSprite(RenderType::guiTextured, badge, badgeX, textCoordsY - 1, 10, 10);
+            badgeX += 13;
+        }
     }
 
     public static void pushNotification(Component text) {

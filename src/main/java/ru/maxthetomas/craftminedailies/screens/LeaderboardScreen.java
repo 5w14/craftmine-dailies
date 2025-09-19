@@ -234,10 +234,13 @@ public class LeaderboardScreen extends Screen {
         int x = this.width / 2 - 110;
         int yText = y + 3 + 4;
         var style = Style.EMPTY.withUnderlined(selected);
+
         graphics.drawString(this.font,
                 Component.literal(String.format("%s.", order)), x - 4 - 20, yText, 0xFFFFFF);
         GameOverlay.drawPlayerHead(graphics, getOrAddCache(minecraft, result.playerId), x + 4, y + 4, 12);
         graphics.drawString(this.font, Component.literal(getNameFromUUID(result.playerId, result.offlineName)).withStyle(style), x + 7 + 16, yText, 0xFFFFFF);
+        GameOverlay.drawBadges(graphics, getNameFromUUID(result.playerId, result.offlineName), x + 7 + 16, yText, result.badges);
+
         graphics.drawString(this.font, Component.literal(String.valueOf(result.xp)), x + 130, yText, 0xFFFFFF);
         graphics.drawString(this.font, getTime(result), x + 172, yText, 0xFFFFFF);
         graphics.drawString(this.font, result.state.getTranslatable(), x + 210, yText, 0xFFFFFF);
@@ -325,7 +328,8 @@ public class LeaderboardScreen extends Screen {
         return super.keyPressed(i, j, k);
     }
 
-    public record Result(UUID playerId, String offlineName, int xp, int gameTime, ResultState state, int runId) {
+    public record Result(UUID playerId, String offlineName, int xp, int gameTime, ResultState state, int runId,
+                         int badges) {
     }
 
     public enum ResultState {

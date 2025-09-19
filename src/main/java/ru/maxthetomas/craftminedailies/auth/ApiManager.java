@@ -179,9 +179,10 @@ public class ApiManager {
                     String uuid = obj.get("player_uuid").getAsString();
                     String offlineUsername = obj.get("player_username").getAsString();
                     int runId = obj.get("run_id").getAsInt();
+                    int badges = obj.has("badges") ? obj.get("badges").getAsInt() : 0;
 
                     var result = new LeaderboardScreen.Result(UndashedUuid.fromStringLenient(uuid), offlineUsername, score,
-                            gameTime, LeaderboardScreen.ResultState.valueOf(state), runId);
+                            gameTime, LeaderboardScreen.ResultState.valueOf(state), runId, badges);
                     list.add(result);
                 }
 

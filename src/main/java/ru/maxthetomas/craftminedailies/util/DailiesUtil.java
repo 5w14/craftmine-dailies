@@ -3,6 +3,7 @@ package ru.maxthetomas.craftminedailies.util;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
@@ -17,6 +18,7 @@ import ru.maxthetomas.craftminedailies.util.scalers.ExperienceAddictionScalingFa
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DailiesUtil {
     public static int getPlayerInventoryValue(ServerPlayer player, ServerLevel level, boolean ignoreSelfPlacedWorldEffects, double extraScale) {
@@ -85,5 +87,24 @@ public class DailiesUtil {
                 )).withStyle(ChatFormatting.YELLOW)));
 
         return list;
+    }
+
+
+    // Todo: make this extensible somehow
+    private static final ResourceLocation CONTRIBUTOR_BADGE = ResourceLocation.fromNamespaceAndPath(CraftmineDailies.MOD_ID, "badges/contributor");
+    private static final ResourceLocation TRANSLATOR_BADGE = ResourceLocation.fromNamespaceAndPath(CraftmineDailies.MOD_ID, "badges/translator");
+
+    private static final Set<ResourceLocation> NONE = Set.of();
+    private static final Set<ResourceLocation> CONTRIBUTOR = Set.of(CONTRIBUTOR_BADGE);
+    private static final Set<ResourceLocation> TRANSLATOR = Set.of(TRANSLATOR_BADGE);
+    private static final Set<ResourceLocation> BOTH = Set.of(CONTRIBUTOR_BADGE, TRANSLATOR_BADGE);
+
+    public static Set<ResourceLocation> getBadges(int i) {
+        return switch (i & 0b11) {
+            case 0b01 -> CONTRIBUTOR;
+            case 0b10 -> TRANSLATOR;
+            case 0b11 -> BOTH;
+            default -> NONE;
+        };
     }
 }

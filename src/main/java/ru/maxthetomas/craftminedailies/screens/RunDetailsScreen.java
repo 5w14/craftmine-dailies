@@ -159,6 +159,7 @@ public class RunDetailsScreen extends Screen {
 
         GameOverlay.drawPlayerHead(guiGraphics, getOrAddCache(minecraft, details.playerUuid()), xBase, 24, 16);
         guiGraphics.drawString(this.font, getNameFromUUID(details.playerUuid(), details.playerOfflineName()), xBase + 16 + 6, 24 + 4, 0xFFFFFF);
+        GameOverlay.drawBadges(guiGraphics, getNameFromUUID(details.playerUuid(), details.playerOfflineName()), xBase + 16 + 6, 24 + 4, details.playerBadges());
 
     }
 

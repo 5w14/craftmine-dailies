@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public record RunDetails(UUID playerUuid, String playerOfflineName, LeaderboardScreen.ResultState state,
+public record RunDetails(UUID playerUuid, String playerOfflineName, int playerBadges,
+                         LeaderboardScreen.ResultState state,
                          int runId, int score, int time, Instant startTime, Instant endTime,
                          List<WorldEffect> forcedWorldEffects, List<WorldEffect> addedWorldEffects,
                          List<PlayerUnlock> forcedPlayerUnlocks, List<PlayerUnlock> addedPlayerUnlocks,
@@ -32,6 +33,7 @@ public record RunDetails(UUID playerUuid, String playerOfflineName, LeaderboardS
     public static final MapCodec<RunDetails> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.STRING.fieldOf("player_uuid").xmap(UndashedUuid::fromStringLenient, UUID::toString).forGetter(RunDetails::playerUuid),
             Codec.STRING.fieldOf("player_username").forGetter(RunDetails::playerOfflineName),
+            Codec.INT.fieldOf("player_badges").forGetter(RunDetails::playerBadges),
             Codec.STRING.fieldOf("state").xmap(LeaderboardScreen.ResultState::valueOf, Enum::toString).forGetter(RunDetails::state),
             Codec.INT.fieldOf("run_id").forGetter(RunDetails::runId),
             Codec.INT.fieldOf("score").forGetter(RunDetails::score),
