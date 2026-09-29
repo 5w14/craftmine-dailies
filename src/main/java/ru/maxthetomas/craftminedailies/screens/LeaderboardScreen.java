@@ -62,6 +62,19 @@ public class LeaderboardScreen extends Screen {
             attemptListRight();
         }).bounds(this.width / 2 + 80, this.height - 30, 20, 20).build());
 
+        if (this.apiDay != null) {
+            var strLen = minecraft.font.width(Component.translatable("craftminedailies.leaderboards.title.withDay",
+                    Month.fromApiDay(apiDay).getComponentRepresentation()));
+
+            addRenderableWidget(Button.builder(Component.literal("<"), (b) -> {
+                minecraft.setScreen(new LeaderboardScreen(Month.fromApiDay(apiDay).yesterday().asApiDay(), this.parent));
+            }).bounds(this.width / 2 - (strLen / 2) - 10 - 20, 8, 20, 20).build());
+
+            addRenderableWidget(Button.builder(Component.literal(">"), (b) -> {
+                minecraft.setScreen(new LeaderboardScreen(Month.fromApiDay(apiDay).tomorrow().asApiDay(), this.parent));
+            }).bounds(this.width / 2 + (strLen / 2) + 10, 8, 20, 20).build());
+        }
+
         if (parent == null) {
             addRenderableWidget(Button.builder(Component.translatable("craftminedailies.close"), (b) -> {
                 minecraft.setScreen(new TitleScreen());
