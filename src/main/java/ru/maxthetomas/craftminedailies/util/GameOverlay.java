@@ -6,12 +6,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class GameOverlay {
     private static final ArrayList<Notification> notifications = new ArrayList<>();
@@ -50,10 +50,22 @@ public class GameOverlay {
     public static void drawBadges(GuiGraphics graphics, String resultName, int textCoordsX, int textCoordsY, int badgesInt) {
         var wdth = Minecraft.getInstance().font.width(resultName);
         int badgeX = textCoordsX + 2 + wdth;
-        var badges = DailiesUtil.getBadges(badgesInt);
-        for (ResourceLocation badge : badges) {
-            graphics.blitSprite(RenderType::guiTextured, badge, badgeX, textCoordsY - 1, 10, 10);
-            badgeX += 13;
+        var badges = Badges.getBadges(badgesInt);
+        for (var badge : badges) {
+            graphics.blitSprite(RenderType::guiTextured, badge.texture(), badgeX, textCoordsY - 1, 10, 10);
+            badgeX += 11;
+        }
+    }
+
+    public static void drawBadgesTooltip(GuiGraphics graphics, String resultName, int textCoordsX, int textCoordsY, int badgesInt, int mouseX, int mouseY) {
+        var wdth = Minecraft.getInstance().font.width(resultName);
+        int badgeX = textCoordsX + 2 + wdth;
+        var badges = Badges.getBadges(badgesInt);
+        for (var badge : badges) {
+            if (mouseX >= badgeX && mouseX < badgeX + 10 && mouseY >= textCoordsY && mouseY < textCoordsY + 10)
+                graphics.renderTooltip(Minecraft.getInstance().font, badge.getTooltipLines(), Optional.empty(), mouseX, mouseY);
+
+            badgeX += 11;
         }
     }
 

@@ -160,10 +160,14 @@ public class LeaderboardScreen extends Screen {
     private List<Result> results = null;
     private CompletableFuture<ApiManager.LeaderboardFetch> futureGetter;
 
+    int mouseX;
+    int mouseY;
+
     @Override
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
         super.render(guiGraphics, i, j, f);
 
+        mouseX = i; mouseY = j;
         GameOverlay.customScreenRenderTimer(minecraft, guiGraphics, width, height);
 
         if (apiDay != null) {
@@ -253,6 +257,7 @@ public class LeaderboardScreen extends Screen {
         GameOverlay.drawPlayerHead(graphics, getOrAddCache(minecraft, result.playerId), x + 4, y + 4, 12);
         graphics.drawString(this.font, Component.literal(getNameFromUUID(result.playerId, result.offlineName)).withStyle(style), x + 7 + 16, yText, 0xFFFFFF);
         GameOverlay.drawBadges(graphics, getNameFromUUID(result.playerId, result.offlineName), x + 7 + 16, yText, result.badges);
+        GameOverlay.drawBadgesTooltip(graphics, getNameFromUUID(result.playerId, result.offlineName), x + 7 + 16, yText, result.badges, mouseX, mouseY);
 
         graphics.drawString(this.font, Component.literal(String.valueOf(result.xp)), x + 130, yText, 0xFFFFFF);
         graphics.drawString(this.font, getTime(result), x + 172, yText, 0xFFFFFF);

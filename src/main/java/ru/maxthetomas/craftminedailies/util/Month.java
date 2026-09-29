@@ -152,5 +152,23 @@ public record Month(int year, int month) {
         public Component getComponentRepresentation() {
             return Component.literal(String.valueOf(day + 1)).append(" ").append(month.getComponentRepresentation());
         }
+
+        public Day tomorrow() {
+            if (day + 1 > month.endDay())
+                return new Day(month.next(), month.next().startDay());
+
+            return new Day(month, day + 1);
+        }
+
+        public Day yesterday() {
+            if (day == 0)
+                return new Day(month.previous(), month.previous().endDay());
+
+            return new Day(month, day - 1);
+        }
+
+        public String asApiDay() {
+            return month.getApiDay(this.day);
+        }
     }
 }
