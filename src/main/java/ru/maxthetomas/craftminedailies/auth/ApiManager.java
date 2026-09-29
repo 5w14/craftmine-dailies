@@ -134,6 +134,8 @@ public class ApiManager {
 
                 CachedCurrentLeaderboardPlace = json.get("leaderboard_place").getAsInt();
                 CachedCurrentLeaderboardPage = json.get("leaderboard_page").getAsInt();
+
+                CraftmineDailies.updateEndText();
             });
         } catch (Exception error) {
             LOGGER.error("Could not submit run end!", error);

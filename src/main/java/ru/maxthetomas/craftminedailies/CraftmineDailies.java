@@ -293,17 +293,23 @@ public class CraftmineDailies implements ModInitializer {
         ApiManager.submitRunStart(ApiMeta.createMeta(new InventoryMeta(List.of())));
     }
 
+    private static EndContext _cachedEndContext;
     public static void dailyEnded(EndContext endContext, InventoryMeta meta) {
         ENDED = true;
 
-        END_TEXT = DailiesUtil.createRunDetails(endContext);
-
         ApiManager.submitRunEnd(endContext, ApiMeta.createMeta(meta));
+
+        _cachedEndContext = endContext;
+        updateEndText();
 
         // Reset
         ENDED = true;
         GAME_TIME_AT_START = -1;
         previousRemainingTime = -1;
+    }
+
+    public static void updateEndText() {
+        END_TEXT = DailiesUtil.createRunDetails(_cachedEndContext);
     }
 
     public static int getTimeAtStart() {
