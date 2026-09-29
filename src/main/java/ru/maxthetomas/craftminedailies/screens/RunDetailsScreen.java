@@ -9,6 +9,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
@@ -136,11 +137,9 @@ public class RunDetailsScreen extends Screen {
         playerRenderState.bodyRot = (float) Math.toDegrees((double) rotCalc * -0.7d);
 
         var playerRenderer = entityRenderDispatcher.getRenderer(playerRenderState);
-
         guiGraphics.drawSpecial(
-                mbs -> playerRenderer.render(playerRenderState, guiGraphics.pose(), mbs, 0xFFFFFFFF)
+                mbs -> playerRenderer.render(playerRenderState, guiGraphics.pose(), mbs, LightTexture.FULL_BRIGHT)
         );
-
 
         guiGraphics.flush();
         entityRenderDispatcher.setRenderShadow(true);
