@@ -67,15 +67,22 @@ public class LeaderboardCalendarScreen extends Screen {
         }).bounds(10, this.height - 30, 50, 20).build());
 
         var backMonth = addRenderableWidget(Button.builder(Component.translatable("craftminedailies.calendar.back"), (b) -> {
+            if (Month.isMonthBeforeCreation(month.previous()))
+                return;
+
             this.month = month.previous();
             init();
         }).bounds(this.width / 2 - 50, this.height - 30, 40, 20).build());
         backMonth.active = !Month.isMonthBeforeCreation(this.month.previous());
 
-        addRenderableWidget(Button.builder(Component.translatable("craftminedailies.calendar.next"), (b) -> {
+        var nextMonth = addRenderableWidget(Button.builder(Component.translatable("craftminedailies.calendar.next"), (b) -> {
+            if (month.next().isDayInFuture(0))
+                return;
+
             this.month = month.next();
             init();
         }).bounds(this.width / 2 + 10, this.height - 30, 40, 20).build());
+        nextMonth.active = !month.next().isDayInFuture(0);
     }
 
 
