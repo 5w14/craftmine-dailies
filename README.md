@@ -1,3 +1,9 @@
+> Craftmine Dailies source repo has migrated to [source hut](https://sr.ht/~fivew14/craftmine-dailies/).
+
+<br><br><br>
+
+---
+
 # Craftmine Dailies
 
 Every good rogue-like needs dailiy runs (dailies). 
